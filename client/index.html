@@ -4,20 +4,81 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PVS Chat</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/script.js"></script>
+    <title>BitBlabb</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
   </head>
-  <body class="flex flex-col w-screen h-screen gap-3 text-white bg-slate-800">
-    <header class="flex items-center justify-center flex-shrink-0 pt-3 h-14">
-      <h1 class="text-2xl font-bold">💬 WhatsChat</h1>
-    </header>
-    <main class="flex justify-center overflow-y-auto grow">
-      <h1>Hi There</h1>
-    </main>
-    <footer class="flex items-center justify-center flex-shrink-0 h-14">
-      <p>Made with ❤️ and a lot of ☕️ by SwitzerChees</p>
-    </footer>
+  <body>
+    <section class="d-flex justify-content-center align-items-center bg-dark">
+      <div class="container">
+        <img src="img/Logo.png" alt="logo" />
+        <div class="row g-1">
+          <div class="col-lg-4 col-md-12">
+            <div
+              class="card border border-end-0 border-dark rounded rounded-4 mb-3 mb-lg-0"
+            >
+              <div
+                class="card-header text-center text-light bg-success bg-gradient"
+              >
+                <h5 class="mb-0">Active Users</h5>
+              </div>
+              <div class="card-body" id="userCard"></div>
+              <div class="card-footer">
+                <div class="input-group py-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    placeholder="Enter Username..."
+                  />
+                  <button class="btn btn-lg btn-success" id="login">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-12">
+            <div
+              class="card border border-start-0 border-dark rounded rounded-4"
+            >
+              <div
+                class="card-header text-center text-light bg-success bg-gradient"
+              >
+                <h5 class="mb-0">Chatroom</h5>
+              </div>
+              <div class="card-body overflow-auto" id="messageCard"></div>
+              <div class="card-footer">
+                <div class="input-group py-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="message"
+                    placeholder="Type message..."
+                  />
+                  <button class="btn btn-lg btn-primary">
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
 </html>
