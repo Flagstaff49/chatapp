@@ -19,8 +19,8 @@ const socket = new WebSocket(backendUrl);
 socket.addEventListener("open", async (event) => {
   console.log("WebSocket connected!");
   // TODO: create message object to transmit the user to the backend
-  const userName = document.getElementById("username").value;
-  const message = { type: "user", data: userName };
+  const username = document.getElementById("username").value;
+  const message = { type: "user", username: username };
   socket.send(JSON.stringify(message));
 });
 
@@ -28,15 +28,13 @@ socket.addEventListener("message", (event) => {
   const messageObject = JSON.parse(event.data);
   console.log("Received message from server: " + messageObject.type);
   switch (messageObject.type) {
-    case "ping":
-      socket.send(JSON.stringify({ type: "pong", data: "FROM CLIENT" }));
     case "users":
       // TODO: Show the current users as DOM elements
-      showUsers(messageObject.data);
+      showUsers(messageObject.users);
       break;
     case "message":
       // TODO: Show new message as DOM element append to chat history
-      showMessage(messageObject.data);
+      showMessage(messageObject.message);
       break;
     default:
       console.error("Unknown message type: " + messageObject.type);
@@ -45,17 +43,33 @@ socket.addEventListener("message", (event) => {
 
 function showUsers(users) {
   // TODO: Show the current users as DOM elements
-  const activeUsers = document.getElementById("userCard");
-  activeUsers.innerHTML = "";
-  users.forEach((user) => {
-    const activeUsers = document.createElement("div");
-    activeUsers.innerHTML = "&#x1F49A " + user;
-    activeUsers.appendChild(activeUsers);
+  const activeUsersContainer = document.getElementById("userCard");
+  activeUsersContainer.innerHTML = "";
+  users.forEach((username) => {
+    const userDiv = document.createElement("div");
+    userDiv.innerHTML = "&#x1F49A " + username;
+    activeUsersContainer.appendChild(userDiv);
   });
 }
 
 function showMessage(message) {
   // TODO: Show new message as DOM element append to chat history
+  const messageContainer = document.createElement("div");
+  const innerMessageElement = document.createElement("div");
+  const messageHeaderElement = document.createElement("span");
+  const usernameElement = document.createElement("span");
+  const timeElement = document.createElement("span");
+  const messageTextElement = document.createElement("p");
+
+  usernameElement.innerHTML = message.username;
+  timeElement.innerHTML = "at " + message.time;
+  messageHeaderElement.appendChild(usernameElement);
+  messageHeaderElement.appendChild(timeElement);
+  messageTextElement.innerHTML = message.message;
+  innerMessageElement.appendChild(messageHeaderElement);
+  innerMessageElement.appendChild(messageTextElement);
+  messageContainer.appendChild(innerMessageElement);
+  document.getElementById("messageCard").appendChild(messageContainer);
 }
 
 socket.addEventListener("close", (event) => {
@@ -69,12 +83,21 @@ socket.addEventListener("error", (event) => {
 function changeUsername() {
   // TODO: Implement change username and forward new username to backend
   const newUserName = document.getElementById("username").value;
-  if (userName === "") return;
-  const message = { type: "user", data: newUserName };
+  if (newUserName === "") return;
+  const message = { type: "user", username: newUserName };
   socket.send(JSON.stringify(message));
 }
 
 function sendMessage() {
   // TODO get message from input and send message as object to backend
+  const messageText = document.getElementById("message").value;
+  if (messageText === "") return;
+  const message = {
+    type: "message",
+    username: document.getElementById("username").value,
+    message: messageText,
+    time: new Date().toLocaleTimeString(),
+  };
   socket.send(JSON.stringify(message));
+  document.getElementById("message").value = "";
 }
