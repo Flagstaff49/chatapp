@@ -19,6 +19,9 @@ const socket = new WebSocket(backendUrl);
 socket.addEventListener("open", async (event) => {
   console.log("WebSocket connected!");
   // TODO: create message object to transmit the user to the backend
+  const userName = document.getElementById("username").value;
+  const message = { type: "user", data: userName };
+  socket.send(JSON.stringify(message));
 });
 
 socket.addEventListener("message", (event) => {
@@ -27,11 +30,13 @@ socket.addEventListener("message", (event) => {
   switch (messageObject.type) {
     case "ping":
       socket.send(JSON.stringify({ type: "pong", data: "FROM CLIENT" }));
-    case "user":
+    case "users":
       // TODO: Show the current users as DOM elements
+      showUsers(messageObject.data);
       break;
     case "message":
       // TODO: Show new message as DOM element append to chat history
+      showMessage(messageObject.data);
       break;
     default:
       console.error("Unknown message type: " + messageObject.type);
@@ -40,6 +45,13 @@ socket.addEventListener("message", (event) => {
 
 function showUsers(users) {
   // TODO: Show the current users as DOM elements
+  const activeUsers = document.getElementById("userCard");
+  activeUsers.innerHTML = "";
+  users.forEach((user) => {
+    const activeUsers = document.createElement("div");
+    activeUsers.innerHTML = "&#x1F49A " + user;
+    activeUsers.appendChild(activeUsers);
+  });
 }
 
 function showMessage(message) {
@@ -56,6 +68,9 @@ socket.addEventListener("error", (event) => {
 
 function changeUsername() {
   // TODO: Implement change username and forward new username to backend
+  const newUserName = document.getElementById("username").value;
+  if (userName === "") return;
+  const message = { type: "user", data: newUserName };
   socket.send(JSON.stringify(message));
 }
 

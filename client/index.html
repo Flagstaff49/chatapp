@@ -40,7 +40,11 @@
                     id="username"
                     placeholder="Enter Username..."
                   />
-                  <button class="btn btn-lg btn-success" id="login">
+                  <button
+                    class="btn btn-lg btn-success"
+                    id="login"
+                    onclick="changeUsername()"
+                  >
                     <i class="bi bi-box-arrow-in-right"></i>
                   </button>
                 </div>
@@ -64,8 +68,13 @@
                     class="form-control"
                     id="message"
                     placeholder="Type message..."
+                    onkeydown="if(event.key ==='Enter') sendMessage()"
                   />
-                  <button class="btn btn-lg btn-primary">
+                  <button
+                    class="btn btn-lg btn-primary"
+                    id="send"
+                    onclick="sendMessage()"
+                  >
                     <i class="bi bi-send-fill"></i>
                   </button>
                 </div>
@@ -81,4 +90,5 @@
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"
   ></script>
+  <script src="script.js"></script>
 </html>
