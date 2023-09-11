@@ -27,14 +27,6 @@ const onConnection = async (ws) => {
   ws.on("close", () => onClose(ws));
   ws.on("message", (message) => onClientMessage(ws, message));
   // TODO: Send all connected users and current message history to the new client
-  const history = await getMessageHistory();
-  if (history) {
-    const parsedHistory = JSON.parse(history);
-    for (const message of parsedHistory) {
-      ws.send(JSON.stringify(message));
-    }
-  }
-
   clients.push({
     connection: ws,
     username: "Anonym",
@@ -46,6 +38,13 @@ const onConnection = async (ws) => {
   });
   for (const client of clients) {
     client.connection.send(usersList);
+  }
+  const history = await getMessageHistory();
+  if (history) {
+    const parsedHistory = JSON.parse(history);
+    for (const message of parsedHistory) {
+      ws.send(JSON.stringify(message));
+    }
   }
 };
 
@@ -97,14 +96,6 @@ const onClientMessage = async (ws, message) => {
 const onClose = async (ws) => {
   console.log("Websocket connection closed");
   // TODO: Remove related user from connected users and propagate new list
-  const history = await getMessageHistory();
-  if (history) {
-    const parsedHistory = JSON.parse(history);
-    for (const message of parsedHistory) {
-      ws.send(JSON.stringify(message));
-    }
-  }
-
   const index = clients.findIndex((client) => client.connection === ws);
   if (index !== -1) {
     clients.splice(index, 1);
